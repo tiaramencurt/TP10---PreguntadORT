@@ -1,14 +1,14 @@
 // Selecciono todos los botones de respuesta
-var botones = document.querySelectorAll('.respuesta-btn');
+let botones = document.querySelectorAll('.respuesta-btn');
 
-for (var i = 0; i < botones.length; i++) {
+for (let i = 0; i < botones.length; i++) {
     botones[i].onclick = function() {
 
-        var idRespuesta = this.getAttribute('data-id');
-        var idPregunta = document.getElementById('enunciado').getAttribute('data-idPregunta');
+        let idRespuesta = this.getAttribute('data-id');
+        let idPregunta = document.getElementById('enunciado').getAttribute('data-idPregunta');
 
         // Desactivar todos los botones mientras procesa
-        for (var j = 0; j < botones.length; j++) {
+        for (let j = 0; j < botones.length; j++) {
             botones[j].disabled = true;
         }
 
@@ -20,15 +20,15 @@ for (var i = 0; i < botones.length; i++) {
         })
         .then(function(response) { return response.text(); })
         .then(function(html) {
-            var tempDiv = document.createElement('div');
+            let tempDiv = document.createElement('div');
             tempDiv.innerHTML = html;
 
             // Leer datos de la view Respuesta
-            var correcta = tempDiv.querySelector('#correcta').value === 'True';
-            var respuestaCorrecta = tempDiv.querySelector('#respuestaCorrecta').value;
-            var puntaje = tempDiv.querySelector('#puntajeHidden').value;
+            let correcta = tempDiv.querySelector('#correcta').value === 'True';
+            let respuestaCorrecta = tempDiv.querySelector('#respuestaCorrecta').value;
+            let puntaje = tempDiv.querySelector('#puntajeHidden').value;
 
-            var mensajeDiv = document.getElementById('mensaje');
+            let mensajeDiv = document.getElementById('mensaje');
             if (correcta) {
                 mensajeDiv.style.color = 'green';
                 mensajeDiv.innerHTML = '¡Correcto!';
