@@ -1,51 +1,52 @@
+using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace TP10.Models
 {
     public static class BD
     {
-        private static string _connectionString = @"Server=localhost;DataBase=PreguntadOrt;Integrated Security=True;TrustServerCertificate=True;";
+        private static string _connectionString = @"Server=localhost; DataBase=PreguntadOrt; Integrated Security=True; TrustServerCertificate=True;";
 
-        public static List<Categoria> ObtenerCategorias()
+        public static List<Categoria> TraerCategorias()
         {
             List<Categoria> lista;
-            using (SqlConnection db = new SqlConnection(_connectionString))
+            string query = "SELECT * FROM Categorias";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT * FROM Categorias";
-                lista = db.Query<Categoria>(sql).AsList();
+                lista = connection.Query<Categoria>(query).ToList();
             }
             return lista;
         }
 
-        public static List<Pregunta> ObtenerPreguntas(int categoria)
+        public static List<Pregunta> TraerPreguntas(int IdCategoria)
         {
             List<Pregunta> lista;
-            using (SqlConnection db = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                if (categoria == -1)
+                if (IdCategoria == -1)
                 {
-                    string sql = "SELECT * FROM Preguntas";
-                    lista = db.Query<Pregunta>(sql).AsList();
+                    string query = "SELECT * FROM Preguntas";
+                    lista = connection.Query<Pregunta>(query).ToList();
                 }
                 else
                 {
-                    string sql = "SELECT * FROM Preguntas WHERE IdCategoria = @pIdCategoria";
-                    lista = db.Query<Pregunta>(sql, new { pIdCategoria = categoria }).AsList();
+                    string query = "SELECT * FROM Preguntas WHERE IdCategoria = @PIdCategoria";
+                    lista = connection.Query<Pregunta>(query, new { PIdCategoria = IdCategoria }).ToList();
                 }
             }
             return lista;
         }
 
-        public static List<Respuesta> ObtenerRespuestas(int idPregunta)
+        public static List<Respuesta> TraerRespuestas(int IdPregunta)
         {
             List<Respuesta> lista;
-            using (SqlConnection db = new SqlConnection(_connectionString))
+            string query = "SELECT * FROM Respuestas WHERE IdPregunta = @PIdPregunta";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT * FROM Respuestas WHERE IdPregunta = @pIdPregunta";
-                lista = db.Query<Respuesta>(sql, new { pIdPregunta = idPregunta }).AsList();
+                lista = connection.Query<Respuesta>(query, new { PIdPregunta = IdPregunta }).ToList();
             }
             return lista;
         }
