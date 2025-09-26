@@ -13,7 +13,7 @@
             <label>Categoría:</label>
             <select name="categoria" class="form-control" required>
                 <option value="-1">Todas</option>
-                @foreach(var cat in ViewBag.Categorias)
+                @foreach(Categoria cat in ViewBag.Categorias)
                 {
                     <option value="@cat.IdCategoria">@cat.Nombre</option>
                 }

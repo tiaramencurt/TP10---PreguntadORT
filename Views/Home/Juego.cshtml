@@ -13,7 +13,7 @@
     }
 
     <div id="respuestas" style="margin-top:20px;">
-        @foreach(var r in ViewBag.Respuestas)
+        @foreach(Respuesta r in ViewBag.Respuestas)
         {
             <button class="respuesta-btn btn btn-outline-primary btn-block mb-2" data-id="@r.IdRespuesta" style="width:100%; padding:10px;">
                 @r.Opcion. @r.Contenido
