@@ -6,10 +6,10 @@
     <h3>Jugador: <span id="username">@ViewBag.Username</span></h3>
     <h4>Puntaje: <span id="puntaje">@ViewBag.PuntajeActual</span></h4>
     <h5>Pregunta @(@ViewBag.ContadorPregunta + 1):</h5>
-    <p id="enunciado" data-idPregunta="@pregunta.IdPregunta">@pregunta.Enunciado</p>
+    <p id="enunciado" data-idPregunta="@ViewBag.PreguntaActual.IdPregunta">@ViewBag.PreguntaActual.Enunciado</p>
     @if(!string.IsNullOrEmpty(ViewBag.PreguntaActual.Foto))
     {
-        <img id="fotoPregunta" src="@pregunta.Foto" alt="Imagen Pregunta" style="max-width:100%;"/>
+        <img id="fotoPregunta" src="@ViewBag.PreguntaActual.Foto" alt="Imagen Pregunta" style="max-width:100%;"/>
     }
 
     <div id="respuestas" style="margin-top:20px;">

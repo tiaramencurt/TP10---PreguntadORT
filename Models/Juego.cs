@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace TP10_PreguntadOrt.Models
+namespace TP10.Models
 {
     public class Juego
     {
@@ -26,6 +26,30 @@ namespace TP10_PreguntadOrt.Models
         [JsonProperty]
         public List<Respuesta> ListaRespuestas { get; private set; }
 
+        // Constructor vacío inicializando listas
+        public Juego()
+        {
+            Username = "";
+            PuntajeActual = 0;
+            CantidadPreguntasCorrectas = 0;
+            ContadorNroPreguntaActual = 0;
+            PreguntaActual = null;
+            ListaPreguntas = new List<Pregunta>();
+            ListaRespuestas = new List<Respuesta>();
+        }
+
+        // Constructor opcional
+        public Juego(string username)
+        {
+            Username = username;
+            PuntajeActual = 0;
+            CantidadPreguntasCorrectas = 0;
+            ContadorNroPreguntaActual = 0;
+            PreguntaActual = null;
+            ListaPreguntas = new List<Pregunta>();
+            ListaRespuestas = new List<Respuesta>();
+        }
+
         private void InicializarJuego()
         {
             Username = "";
@@ -33,8 +57,8 @@ namespace TP10_PreguntadOrt.Models
             CantidadPreguntasCorrectas = 0;
             ContadorNroPreguntaActual = 0;
             PreguntaActual = null;
-            ListaPreguntas = null;
-            ListaRespuestas = null;
+            ListaPreguntas.Clear();
+            ListaRespuestas.Clear();
         }
 
         public List<Categoria> ObtenerCategorias()
@@ -46,12 +70,12 @@ namespace TP10_PreguntadOrt.Models
         {
             InicializarJuego();
             Username = username;
-            ListaPreguntas = BD.ObtenerPreguntas(categoria);
+            ListaPreguntas = BD.ObtenerPreguntas(categoria) ?? new List<Pregunta>();
             ContadorNroPreguntaActual = 0;
             if (ListaPreguntas.Count > 0)
             {
                 PreguntaActual = ListaPreguntas[0];
-                ListaRespuestas = BD.ObtenerRespuestas(PreguntaActual.IdPregunta);
+                ListaRespuestas = BD.ObtenerRespuestas(PreguntaActual.IdPregunta) ?? new List<Respuesta>();
             }
         }
 
@@ -70,7 +94,7 @@ namespace TP10_PreguntadOrt.Models
 
         public List<Respuesta> ObtenerProximasRespuestas(int idPregunta)
         {
-            ListaRespuestas = BD.ObtenerRespuestas(idPregunta);
+            ListaRespuestas = BD.ObtenerRespuestas(idPregunta) ?? new List<Respuesta>();
             return ListaRespuestas;
         }
 
@@ -84,21 +108,23 @@ namespace TP10_PreguntadOrt.Models
                     resultado = r.Correcta;
                     if (resultado)
                     {
-                        PuntajeActual += 10; // puntos por acierto
+                        PuntajeActual += 10;
                         CantidadPreguntasCorrectas++;
                     }
                 }
             }
+
             ContadorNroPreguntaActual++;
             if (ContadorNroPreguntaActual < ListaPreguntas.Count)
             {
                 PreguntaActual = ListaPreguntas[ContadorNroPreguntaActual];
-                ListaRespuestas = BD.ObtenerRespuestas(PreguntaActual.IdPregunta);
+                ListaRespuestas = BD.ObtenerRespuestas(PreguntaActual.IdPregunta) ?? new List<Respuesta>();
             }
             else
             {
                 PreguntaActual = null;
             }
+
             return resultado;
         }
     }

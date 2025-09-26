@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace TP10.Models
@@ -6,16 +5,35 @@ namespace TP10.Models
     public class Respuesta
     {
         [JsonProperty]
-        public int IdRespuesta { get; set; }
+        public int IdRespuesta { get; private set; }
+
         [JsonProperty]
-        public int IdPregunta { get; set; }
+        public int IdPregunta { get; private set; }
+
         [JsonProperty]
-        public int Opcion { get; set; }
+        public string Opcion { get; private set; }
+
         [JsonProperty]
-        public string Contenido { get; set; }
+        public string Contenido { get; private set; }
+
         [JsonProperty]
-        public bool Correcta { get; set; }
+        public bool Correcta { get; private set; }
+
         [JsonProperty]
-        public string Foto { get; set; }
+        public string Foto { get; private set; }
+
+        // Constructor vacío
+        public Respuesta() { }
+
+        // Constructor opcional
+        public Respuesta(int idRes, int idPreg, string opcion, string contenido, bool correcta, string foto)
+        {
+            IdRespuesta = idRes;
+            IdPregunta = idPreg;
+            Opcion = opcion;
+            Contenido = contenido;
+            Correcta = correcta;
+            Foto = foto;
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace TP10_PreguntadOrt.Models
 {
     public static class BD
     {
-        private static string _connectionString = @"Server=.;DataBase=PreguntadOrt;Trusted_Connection=True;";
+        private static string _connectionString = @"Server=localhost;DataBase=PreguntadOrt;Trusted_Connection=True;";
 
         public static List<Categoria> ObtenerCategorias()
         {
