@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
 
-namespace TP10_PreguntadOrt.Models
+namespace TP10.Models
 {
     public static class BD
     {
-        private static string _connectionString = @"Server=localhost;DataBase=PreguntadOrt;Trusted_Connection=True;";
+        private static string _connectionString = @"Server=localhost;DataBase=PreguntadOrt;Integrated Security=True;TrustServerCertificate=True;";
 
         public static List<Categoria> ObtenerCategorias()
         {
