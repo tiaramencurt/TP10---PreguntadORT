@@ -25,8 +25,6 @@ namespace TP10.Models
 
         [JsonProperty]
         public List<Respuesta> ListaRespuestas { get; private set; }
-
-        // Constructor vacío inicializando listas
         public Juego()
         {
             Username = "";
@@ -37,8 +35,6 @@ namespace TP10.Models
             ListaPreguntas = new List<Pregunta>();
             ListaRespuestas = new List<Respuesta>();
         }
-
-        // Constructor opcional
         public Juego(string username)
         {
             Username = username;
@@ -61,25 +57,25 @@ namespace TP10.Models
             ListaRespuestas.Clear();
         }
 
-        public List<Categoria> ObtenerCategorias()
+        public List<Categoria> TraerCategorias()
         {
-            return BD.ObtenerCategorias();
+            return BD.TraerCategorias();
         }
 
         public void CargarPartida(string username, int categoria)
         {
             InicializarJuego();
             Username = username;
-            ListaPreguntas = BD.ObtenerPreguntas(categoria) ?? new List<Pregunta>();
+            ListaPreguntas = BD.TraerPreguntas(categoria);
             ContadorNroPreguntaActual = 0;
             if (ListaPreguntas.Count > 0)
             {
                 PreguntaActual = ListaPreguntas[0];
-                ListaRespuestas = BD.ObtenerRespuestas(PreguntaActual.IdPregunta) ?? new List<Respuesta>();
+                ListaRespuestas = BD.TraerRespuestas(PreguntaActual.IdPregunta);
             }
         }
 
-        public Pregunta ObtenerProximaPregunta()
+        public Pregunta TraerProximaPregunta()
         {
             if (ContadorNroPreguntaActual < ListaPreguntas.Count)
             {
@@ -92,9 +88,9 @@ namespace TP10.Models
             }
         }
 
-        public List<Respuesta> ObtenerProximasRespuestas(int idPregunta)
+        public List<Respuesta> TraerProximasRespuestas(int idPregunta)
         {
-            ListaRespuestas = BD.ObtenerRespuestas(idPregunta) ?? new List<Respuesta>();
+            ListaRespuestas = BD.TraerRespuestas(idPregunta);
             return ListaRespuestas;
         }
 
@@ -118,7 +114,7 @@ namespace TP10.Models
             if (ContadorNroPreguntaActual < ListaPreguntas.Count)
             {
                 PreguntaActual = ListaPreguntas[ContadorNroPreguntaActual];
-                ListaRespuestas = BD.ObtenerRespuestas(PreguntaActual.IdPregunta) ?? new List<Respuesta>();
+                ListaRespuestas = BD.TraerRespuestas(PreguntaActual.IdPregunta);
             }
             else
             {

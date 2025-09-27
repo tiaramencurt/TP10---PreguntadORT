@@ -15,11 +15,7 @@ namespace TP10.Models
 
         [JsonProperty]
         public string Foto { get; private set; }
-
-        // Constructor vacío
         public Pregunta() { }
-
-        // Constructor opcional
         public Pregunta(int id, int idCat, string enunciado, string foto)
         {
             IdPregunta = id;

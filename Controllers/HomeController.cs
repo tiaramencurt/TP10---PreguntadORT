@@ -5,7 +5,7 @@ namespace TP10.Controllers
 {
     public class HomeController : Controller
     {
-        private Juego ObtenerJuegoSesion()
+        private Juego TraerJuegoSesion()
         {
             if (HttpContext.Session.GetString("juego") == null)
             {
@@ -26,15 +26,15 @@ namespace TP10.Controllers
 
         public IActionResult ConfigurarJuego()
         {
-            Juego juego = ObtenerJuegoSesion();
-            ViewBag.Categorias = juego.ObtenerCategorias();
+            Juego juego = TraerJuegoSesion();
+            ViewBag.Categorias = juego.TraerCategorias();
             return View();
         }
 
         [HttpPost]
         public IActionResult Comenzar(string username, int categoria)
         {
-            Juego juego = ObtenerJuegoSesion();
+            Juego juego = TraerJuegoSesion();
             juego.CargarPartida(username, categoria);
             GuardarJuegoSesion(juego);
             return RedirectToAction("Jugar");
@@ -42,8 +42,8 @@ namespace TP10.Controllers
 
         public IActionResult Jugar()
         {
-            Juego juego = ObtenerJuegoSesion();
-            Pregunta pregunta = juego.ObtenerProximaPregunta();
+            Juego juego = TraerJuegoSesion();
+            Pregunta pregunta = juego.TraerProximaPregunta();
 
             if (pregunta == null)
             {
@@ -55,7 +55,7 @@ namespace TP10.Controllers
             ViewBag.PuntajeActual = juego.PuntajeActual;
             ViewBag.ContadorPregunta = juego.ContadorNroPreguntaActual;
             ViewBag.PreguntaActual = pregunta;
-            ViewBag.Respuestas = juego.ObtenerProximasRespuestas(pregunta.IdPregunta);
+            ViewBag.Respuestas = juego.TraerProximasRespuestas(pregunta.IdPregunta);
 
             GuardarJuegoSesion(juego);
             return View();
@@ -64,7 +64,7 @@ namespace TP10.Controllers
         [HttpPost]
         public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta)
         {
-            Juego juego = ObtenerJuegoSesion();
+            Juego juego = TraerJuegoSesion();
             bool correcta = juego.VerificarRespuesta(idRespuesta);
 
             Respuesta correctaObj = juego.ListaRespuestas.Find(r => r.Correcta);
@@ -78,12 +78,11 @@ namespace TP10.Controllers
 
         public IActionResult Fin()
         {
-            Juego juego = ObtenerJuegoSesion();
+            Juego juego = TraerJuegoSesion();
 
             ViewBag.Username = juego.Username;
             ViewBag.PuntajeFinal = juego.PuntajeActual;
 
-            // Reiniciar juego en sesión
             HttpContext.Session.Remove("juego");
 
             return View();
