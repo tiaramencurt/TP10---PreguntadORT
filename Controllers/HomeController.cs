@@ -58,7 +58,7 @@ namespace TP10.Controllers
             ViewBag.Respuestas = juego.TraerProximasRespuestas(pregunta.IdPregunta);
 
             GuardarJuegoSesion(juego);
-            return View();
+            return View("Juego");
         }
 
         [HttpPost]
