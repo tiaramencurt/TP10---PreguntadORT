@@ -1,10 +1,8 @@
--- Crear base de datos
 CREATE DATABASE PreguntadOrt;
 GO
 USE PreguntadOrt;
 GO
 
--- Crear tablas
 CREATE TABLE Categorias (
     IdCategoria INT IDENTITY(1,1) PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,

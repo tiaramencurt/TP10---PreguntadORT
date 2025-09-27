@@ -14,9 +14,8 @@ namespace TP10.Models
         [JsonProperty]
         public string Foto { get; private set; }
         public Categoria() { }
-        public Categoria(int id, string nombre, string foto)
+        public Categoria(string nombre, string foto)
         {
-            IdCategoria = id;
             Nombre = nombre;
             Foto = foto;
         }

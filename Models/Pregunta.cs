@@ -16,9 +16,8 @@ namespace TP10.Models
         [JsonProperty]
         public string Foto { get; private set; }
         public Pregunta() { }
-        public Pregunta(int id, int idCat, string enunciado, string foto)
+        public Pregunta(int idCat, string enunciado, string foto)
         {
-            IdPregunta = id;
             IdCategoria = idCat;
             Enunciado = enunciado;
             Foto = foto;

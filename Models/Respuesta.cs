@@ -22,9 +22,8 @@ namespace TP10.Models
         [JsonProperty]
         public string Foto { get; private set; }
         public Respuesta() { }
-        public Respuesta(int idRes, int idPreg, string opcion, string contenido, bool correcta, string foto)
+        public Respuesta(int idPreg, string opcion, string contenido, bool correcta, string foto)
         {
-            IdRespuesta = idRes;
             IdPregunta = idPreg;
             Opcion = opcion;
             Contenido = contenido;
