@@ -21,3 +21,115 @@ footer {
   background-color: #f8f9fa;
   border-top: 1px solid #e9ecef;
 }
+body {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background: linear-gradient(135deg, #ffe4ec 0%, #ffd1ea 100%);
+  color: #7d2154;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container-center, #juego-container, .configurar-container {
+  max-width: 600px;
+  margin: 50px auto 0 auto;
+  text-align: center;
+  background: #fff4f8;
+  border-radius: 22px;
+  box-shadow: 0 4px 32px -10px #e85c9c55;
+  padding: 32px 20px;
+}
+
+.logo {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+h1, h2, h3, h4, h5 {
+  color: #e85c9c;
+  margin: 10px 0;
+}
+
+.btn {
+  font-size: 1.2em;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: #e85c9c;
+  color: #fff;
+  margin-top: 12px;
+  transition: background 0.2s;
+  box-shadow: 0 2px 10px -5px #e85c9c50;
+}
+
+.btn-primary {
+  background: #e85c9c;
+}
+.btn-success {
+  background: #c34da7;
+}
+.btn:active, .btn:hover {
+  background: #ff8ac7;
+}
+
+#enunciado {
+  font-size: 1.3em;
+  margin-bottom: 16px;
+  color: #b02368;
+}
+
+#fotoPregunta, .img-respuesta {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 12px auto;
+  box-shadow: 0 2px 12px -6px #e85c9c50;
+}
+
+.radio-group {
+  margin-bottom: 10px;
+}
+
+#mensaje {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  display: none;
+  padding: 12px 0;
+}
+
+#mensaje.correcto {
+  color: #27ae60;
+  display: block;
+}
+#mensaje.incorrecto {
+  color: #e85c9c;
+  display: block;
+}
+
+/* Formulario configuración */
+.configurar-container .form-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.configurar-container label {
+  color: #e85c9c;
+  font-weight: bold;
+}
+
+.configurar-container input.form-control,
+.configurar-container select.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e85c9c;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  font-size: 1em;
+  background: #ffe4ec;
+  color: #7d2154;
+}
+
+.configurar-container button {
+  margin-top: 18px;
+}

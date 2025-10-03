@@ -1,30 +1,29 @@
 @{
     ViewData["Title"] = "Juego";
-    bool mostrarMensaje = !string.IsNullOrEmpty(mensaje);
+    bool mostrarMensaje = !string.IsNullOrEmpty(ViewBag.MensajeRespuesta);
 }
-
-<div id="juego-container" style="max-width:600px; margin:auto; margin-top:30px; text-align:center;">
+<div id="juego-container">
     <h3>Jugador: <span id="username">@ViewBag.Username</span></h3>
     <h4>Puntaje: <span id="puntaje">@ViewBag.PuntajeActual</span></h4>
     <h5>Pregunta @(@ViewBag.ContadorPregunta + 1):</h5>
     <p id="enunciado">@ViewBag.PreguntaActual.Enunciado</p>
     @if(!string.IsNullOrEmpty(ViewBag.PreguntaActual.Foto))
     {
-        <img id="fotoPregunta" src="@ViewBag.PreguntaActual.Foto" alt="Imagen Pregunta" style="max-width:100%;" />
+        <img id="fotoPregunta" src="@ViewBag.PreguntaActual.Foto" alt="Imagen Pregunta" />
     }
 
     <form method="post" action="@Url.Action("VerificarRespuesta", "Home")" id="formRespuesta">
         <input type="hidden" name="idPregunta" value="@ViewBag.PreguntaActual.IdPregunta" />
         @foreach(Respuesta r in ViewBag.Respuestas)
         {
-            <div style="margin-bottom: 10px;">
+            <div class="radio-group">
                 <label>
                     <input type="radio" name="idRespuesta" value="@r.IdRespuesta" required />
                     @r.Opcion. @r.Contenido
                     @if(!string.IsNullOrEmpty(r.Foto))
                     {
                         <br />
-                        <img src="@r.Foto" alt="Imagen Respuesta" style="max-width:100px; display:block; margin:auto;" />
+                        <img src="@r.Foto" alt="Imagen Respuesta" class="img-respuesta" />
                     }
                 </label>
             </div>
@@ -32,7 +31,7 @@
         <button type="submit" class="btn btn-primary">Verificar</button>
     </form>
 
-    <div id="mensaje" style="margin-top:20px; font-size:24px; font-weight:bold; color:@(ViewBag.MensajeRespuesta == "¡Correcto!" ? "green" : "red"); display:@(mostrarMensaje ? "block" : "none");">
+    <div id="mensaje" class="@(ViewBag.MensajeRespuesta == "¡Correcto!" ? "correcto" : "incorrecto")" style="@(mostrarMensaje ? "display:block;" : "")">
         @ViewBag.MensajeRespuesta
     </div>
     @if(mostrarMensaje)
