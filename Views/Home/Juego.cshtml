@@ -1,32 +1,43 @@
 @{
     ViewData["Title"] = "Juego";
+    string mensaje = ViewBag.MensajeRespuesta as string;
+    bool mostrarMensaje = !string.IsNullOrEmpty(mensaje);
 }
 
 <div id="juego-container" style="max-width:600px; margin:auto; margin-top:30px; text-align:center;">
     <h3>Jugador: <span id="username">@ViewBag.Username</span></h3>
     <h4>Puntaje: <span id="puntaje">@ViewBag.PuntajeActual</span></h4>
     <h5>Pregunta @(@ViewBag.ContadorPregunta + 1):</h5>
-    <p id="enunciado" data-idPregunta="@ViewBag.PreguntaActual.IdPregunta">@ViewBag.PreguntaActual.Enunciado</p>
+    <p id="enunciado">@ViewBag.PreguntaActual.Enunciado</p>
     @if(!string.IsNullOrEmpty(ViewBag.PreguntaActual.Foto))
     {
-        <img id="fotoPregunta" src="@ViewBag.PreguntaActual.Foto" alt="Imagen Pregunta" style="max-width:100%;"/>
+        <img id="fotoPregunta" src="@ViewBag.PreguntaActual.Foto" alt="Imagen Pregunta" style="max-width:100%;" />
     }
 
-    <div id="respuestas" style="margin-top:20px;">
+    <form method="post" action="@Url.Action("VerificarRespuesta", "Home")" id="formRespuesta">
+        <input type="hidden" name="idPregunta" value="@ViewBag.PreguntaActual.IdPregunta" />
         @foreach(Respuesta r in ViewBag.Respuestas)
         {
-            <button class="respuesta-btn btn btn-outline-primary btn-block mb-2" data-id="@r.IdRespuesta" style="width:100%; padding:10px;">
-                @r.Opcion. @r.Contenido
-                @if(!string.IsNullOrEmpty(r.Foto))
-                {
-                    <br/>
-                    <img src="@r.Foto" alt="Imagen Respuesta" style="max-width:100px; display:block; margin:auto;"/>
-                }
-            </button>
+            <div style="margin-bottom: 10px;">
+                <label>
+                    <input type="radio" name="idRespuesta" value="@r.IdRespuesta" required />
+                    @r.Opcion. @r.Contenido
+                    @if(!string.IsNullOrEmpty(r.Foto))
+                    {
+                        <br />
+                        <img src="@r.Foto" alt="Imagen Respuesta" style="max-width:100px; display:block; margin:auto;" />
+                    }
+                </label>
+            </div>
         }
+        <button type="submit" class="btn btn-primary">Verificar</button>
+    </form>
+
+    <div id="mensaje" style="margin-top:20px; font-size:24px; font-weight:bold; color:@(mensaje == "¡Correcto!" ? "green" : "red"); display:@(mostrarMensaje ? "block" : "none");">
+        @mensaje
     </div>
-
-    <div id="mensaje" style="margin-top:20px; font-size:24px; font-weight:bold;"></div>
+    @if(mostrarMensaje)
+    {
+        <a href="/Home/Jugar" id="btnSiguiente" class="btn btn-success mt-3">Siguiente pregunta</a>
+    }
 </div>
-
-<script src="~/js/juego.js"></script>

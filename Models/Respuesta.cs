@@ -5,22 +5,22 @@ namespace TP10.Models
     public class Respuesta
     {
         [JsonProperty]
-        public int IdRespuesta { get; private set; }
+        public int IdRespuesta { get; set; }
 
         [JsonProperty]
-        public int IdPregunta { get; private set; }
+        public int IdPregunta { get; set; }
 
         [JsonProperty]
-        public string Opcion { get; private set; }
+        public string Opcion { get; set; }
 
         [JsonProperty]
-        public string Contenido { get; private set; }
+        public string Contenido { get; set; }
 
         [JsonProperty]
-        public bool Correcta { get; private set; }
+        public bool Correcta { get; set; }
 
         [JsonProperty]
-        public string Foto { get; private set; }
+        public string Foto { get; set; }
         public Respuesta() { }
         public Respuesta(int idPreg, string opcion, string contenido, bool correcta, string foto)
         {

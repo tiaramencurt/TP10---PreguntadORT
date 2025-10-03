@@ -8,11 +8,11 @@ namespace TP10.Models
     public class Categoria
     {
         [JsonProperty]
-        public int IdCategoria { get; private set; }
+        public int IdCategoria { get; set; }
         [JsonProperty]
-        public string Nombre { get; private set; }
+        public string Nombre { get; set; }
         [JsonProperty]
-        public string Foto { get; private set; }
+        public string Foto { get; set; }
         public Categoria() { }
         public Categoria(string nombre, string foto)
         {

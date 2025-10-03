@@ -6,25 +6,25 @@ namespace TP10.Models
     public class Juego
     {
         [JsonProperty]
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
         [JsonProperty]
-        public int PuntajeActual { get; private set; }
+        public int PuntajeActual { get; set; }
 
         [JsonProperty]
-        public int CantidadPreguntasCorrectas { get; private set; }
+        public int CantidadPreguntasCorrectas { get; set; }
 
         [JsonProperty]
-        public int ContadorNroPreguntaActual { get; private set; }
+        public int ContadorNroPreguntaActual { get; set; }
 
         [JsonProperty]
-        public Pregunta PreguntaActual { get; private set; }
+        public Pregunta PreguntaActual { get; set; }
 
         [JsonProperty]
-        public List<Pregunta> ListaPreguntas { get; private set; }
+        public List<Pregunta> ListaPreguntas { get; set; }
 
         [JsonProperty]
-        public List<Respuesta> ListaRespuestas { get; private set; }
+        public List<Respuesta> ListaRespuestas { get; set; }
         public Juego()
         {
             Username = "";

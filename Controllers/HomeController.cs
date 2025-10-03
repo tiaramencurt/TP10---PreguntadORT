@@ -1,90 +1,120 @@
 using Microsoft.AspNetCore.Mvc;
 using TP10.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace TP10.Controllers
 {
     public class HomeController : Controller
     {
-        private Juego TraerJuegoSesion()
+        private Juego ObtenerJuegoDeSession()
         {
-            if (HttpContext.Session.GetString("juego") == null)
-            {
+            string juegoJson = HttpContext.Session.GetString("juego");
+            if (string.IsNullOrEmpty(juegoJson))
                 return new Juego();
-            }
-            return Objeto.StringToObject<Juego>(HttpContext.Session.GetString("juego"));
+            else
+                return Objeto.StringToObject<Juego>(juegoJson);
         }
 
-        private void GuardarJuegoSesion(Juego juego)
+        private void GuardarJuegoEnSession(Juego juego)
         {
-            HttpContext.Session.SetString("juego", Objeto.ObjectToString(juego));
+            string juegoJson = Objeto.ObjectToString<Juego>(juego);
+            HttpContext.Session.SetString("juego", juegoJson);
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         public IActionResult ConfigurarJuego()
         {
-            Juego juego = TraerJuegoSesion();
-            ViewBag.Categorias = juego.TraerCategorias();
+            ViewBag.Categorias = BD.TraerCategorias();
             return View();
         }
 
         [HttpPost]
         public IActionResult Comenzar(string username, int categoria)
         {
-            Juego juego = TraerJuegoSesion();
+            Juego juego = new Juego();
             juego.CargarPartida(username, categoria);
-            GuardarJuegoSesion(juego);
-            return RedirectToAction("Jugar");
-        }
-
-        public IActionResult Jugar()
-        {
-            Juego juego = TraerJuegoSesion();
-            Pregunta pregunta = juego.TraerProximaPregunta();
-
-            if (pregunta == null)
-            {
-                GuardarJuegoSesion(juego);
-                return View("Fin");
-            }
+            GuardarJuegoEnSession(juego);
 
             ViewBag.Username = juego.Username;
             ViewBag.PuntajeActual = juego.PuntajeActual;
             ViewBag.ContadorPregunta = juego.ContadorNroPreguntaActual;
-            ViewBag.PreguntaActual = pregunta;
-            ViewBag.Respuestas = juego.TraerProximasRespuestas(pregunta.IdPregunta);
+            ViewBag.PreguntaActual = juego.PreguntaActual;
+            ViewBag.Respuestas = juego.ListaRespuestas;
 
-            GuardarJuegoSesion(juego);
+            return View("Juego");
+        }
+
+        public IActionResult Jugar()
+        {
+            Juego juego = ObtenerJuegoDeSession();
+            if (juego.ContadorNroPreguntaActual >= juego.ListaPreguntas.Count)
+                return RedirectToAction("Fin");
+
+            juego.PreguntaActual = juego.TraerProximaPregunta();
+            juego.ListaRespuestas = juego.TraerProximasRespuestas(juego.PreguntaActual.IdPregunta);
+
+            GuardarJuegoEnSession(juego);
+
+            ViewBag.Username = juego.Username;
+            ViewBag.PuntajeActual = juego.PuntajeActual;
+            ViewBag.ContadorPregunta = juego.ContadorNroPreguntaActual;
+            ViewBag.PreguntaActual = juego.PreguntaActual;
+            ViewBag.Respuestas = juego.ListaRespuestas;
+
             return View("Juego");
         }
 
         [HttpPost]
         public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta)
         {
-            Juego juego = TraerJuegoSesion();
+            Juego juego = ObtenerJuegoDeSession();
+
             bool correcta = juego.VerificarRespuesta(idRespuesta);
 
-            Respuesta correctaObj = juego.ListaRespuestas.Find(r => r.Correcta);
+            Respuesta respuestaCorrecta = null;
+            foreach (Respuesta r in juego.ListaRespuestas)
+            {
+                if (r.Correcta)
+                {
+                    respuestaCorrecta = r;
+                    break;
+                }
+            }
 
-            ViewBag.Correcta = correcta;
-            ViewBag.RespuestaCorrecta = correctaObj.Contenido;
+            if (correcta)
+                ViewBag.MensajeRespuesta = "¡Correcto!";
+            else if (respuestaCorrecta != null)
+                ViewBag.MensajeRespuesta = "Incorrecto. La correcta era: " + respuestaCorrecta.Opcion + ". " + respuestaCorrecta.Contenido;
+            else
+                ViewBag.MensajeRespuesta = "Incorrecto.";
 
-            GuardarJuegoSesion(juego);
-            return View("Respuesta");
+            GuardarJuegoEnSession(juego);
+
+            // ¿Terminó el juego?
+            if (juego.ContadorNroPreguntaActual >= juego.ListaPreguntas.Count)
+                return RedirectToAction("Fin");
+
+            // Cargar próxima pregunta
+            juego.PreguntaActual = juego.TraerProximaPregunta();
+            juego.ListaRespuestas = juego.TraerProximasRespuestas(juego.PreguntaActual.IdPregunta);
+
+            ViewBag.Username = juego.Username;
+            ViewBag.PuntajeActual = juego.PuntajeActual;
+            ViewBag.ContadorPregunta = juego.ContadorNroPreguntaActual;
+            ViewBag.PreguntaActual = juego.PreguntaActual;
+            ViewBag.Respuestas = juego.ListaRespuestas;
+
+            return View("Juego");
         }
 
         public IActionResult Fin()
         {
-            Juego juego = TraerJuegoSesion();
-
+            Juego juego = ObtenerJuegoDeSession();
             ViewBag.Username = juego.Username;
             ViewBag.PuntajeFinal = juego.PuntajeActual;
-
-            HttpContext.Session.Remove("juego");
-
+            HttpContext.Session.Remove("juego"); // Limpia la partida
             return View();
         }
     }

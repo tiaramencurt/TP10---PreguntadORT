@@ -8,8 +8,8 @@ namespace TP10.Models
 {
     public static class BD
     {
-        //private static string _connectionString = @"Server=localhost; DataBase=PreguntadOrt; Integrated Security=True; TrustServerCertificate=True;";
-        private static string _connectionString = @"Server=localhost\SQLEXPRESS;Database=PreguntadOrt;Trusted_Connection=True;Integrated Security=True; TrustServerCertificate=True;";
+        private static string _connectionString = @"Server=localhost; DataBase=PreguntadOrt; Integrated Security=True; TrustServerCertificate=True;";
+        //private static string _connectionString = @"Server=localhost\SQLEXPRESS;Database=PreguntadOrt;Trusted_Connection=True;Integrated Security=True; TrustServerCertificate=True;";
 
         
         public static List<Categoria> TraerCategorias()
