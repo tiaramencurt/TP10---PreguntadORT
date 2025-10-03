@@ -1,6 +1,5 @@
 @{
     ViewData["Title"] = "Juego";
-    string mensaje = ViewBag.MensajeRespuesta as string;
     bool mostrarMensaje = !string.IsNullOrEmpty(mensaje);
 }
 
@@ -33,8 +32,8 @@
         <button type="submit" class="btn btn-primary">Verificar</button>
     </form>
 
-    <div id="mensaje" style="margin-top:20px; font-size:24px; font-weight:bold; color:@(mensaje == "¡Correcto!" ? "green" : "red"); display:@(mostrarMensaje ? "block" : "none");">
-        @mensaje
+    <div id="mensaje" style="margin-top:20px; font-size:24px; font-weight:bold; color:@(ViewBag.MensajeRespuesta == "¡Correcto!" ? "green" : "red"); display:@(mostrarMensaje ? "block" : "none");">
+        @ViewBag.MensajeRespuesta
     </div>
     @if(mostrarMensaje)
     {
