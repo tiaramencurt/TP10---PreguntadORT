@@ -67,47 +67,49 @@ namespace TP10.Controllers
         }
 
         [HttpPost]
-        public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta)
+public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta)
+{
+    Juego juego = ObtenerJuegoDeSession();
+
+    // Guardar la lista de respuestas antes de avanzar
+    List<Respuesta> respuestasDeLaPregunta = new List<Respuesta>(juego.ListaRespuestas);
+
+    bool correcta = juego.VerificarRespuesta(idRespuesta);
+
+    // Buscar la respuesta correcta en la lista guardada
+    Respuesta respuestaCorrecta = null;
+    foreach (Respuesta r in respuestasDeLaPregunta)
+    {
+        if (r.Correcta)
         {
-            Juego juego = ObtenerJuegoDeSession();
-
-            bool correcta = juego.VerificarRespuesta(idRespuesta);
-
-            Respuesta respuestaCorrecta = null;
-            foreach (Respuesta r in juego.ListaRespuestas)
-            {
-                if (r.Correcta)
-                {
-                    respuestaCorrecta = r;
-                    break;
-                }
-            }
-
-            if (correcta)
-                ViewBag.MensajeRespuesta = "¡Correcto!";
-            else if (respuestaCorrecta != null)
-                ViewBag.MensajeRespuesta = "Incorrecto. La correcta era: " + respuestaCorrecta.Opcion + ". " + respuestaCorrecta.Contenido;
-            else
-                ViewBag.MensajeRespuesta = "Incorrecto.";
-
-            GuardarJuegoEnSession(juego);
-
-            // ¿Terminó el juego?
-            if (juego.ContadorNroPreguntaActual >= juego.ListaPreguntas.Count)
-                return RedirectToAction("Fin");
-
-            // Cargar próxima pregunta
-            juego.PreguntaActual = juego.TraerProximaPregunta();
-            juego.ListaRespuestas = juego.TraerProximasRespuestas(juego.PreguntaActual.IdPregunta);
-
-            ViewBag.Username = juego.Username;
-            ViewBag.PuntajeActual = juego.PuntajeActual;
-            ViewBag.ContadorPregunta = juego.ContadorNroPreguntaActual;
-            ViewBag.PreguntaActual = juego.PreguntaActual;
-            ViewBag.Respuestas = juego.ListaRespuestas;
-
-            return View("Juego");
+            respuestaCorrecta = r;
+            break;
         }
+    }
+
+    if (correcta)
+        ViewBag.MensajeRespuesta = "¡Correcto!";
+    else if (respuestaCorrecta != null)
+        ViewBag.MensajeRespuesta = "Incorrecto. La correcta era: " + respuestaCorrecta.Opcion + ". " + respuestaCorrecta.Contenido;
+    else
+        ViewBag.MensajeRespuesta = "Incorrecto.";
+
+    GuardarJuegoEnSession(juego);
+
+    if (juego.ContadorNroPreguntaActual >= juego.ListaPreguntas.Count)
+        return RedirectToAction("Fin");
+
+    juego.PreguntaActual = juego.TraerProximaPregunta();
+    juego.ListaRespuestas = juego.TraerProximasRespuestas(juego.PreguntaActual.IdPregunta);
+
+    ViewBag.Username = juego.Username;
+    ViewBag.PuntajeActual = juego.PuntajeActual;
+    ViewBag.ContadorPregunta = juego.ContadorNroPreguntaActual;
+    ViewBag.PreguntaActual = juego.PreguntaActual;
+    ViewBag.Respuestas = juego.ListaRespuestas;
+
+    return View("Juego");
+}
 
         public IActionResult Fin()
         {
