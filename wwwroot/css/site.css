@@ -10,25 +10,67 @@ html {
 }
 
 body {
-  margin: 10px;
-  padding: 10px;
-}
-
-
-footer {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-top: 1px solid #e9ecef;
-}
-body {
   font-family: 'Segoe UI', 'Arial', sans-serif;
   background: linear-gradient(135deg, #ffe4ec 0%, #ffd1ea 100%);
   color: #7d2154;
   min-height: 100vh;
   margin: 0;
+  padding: 0;
 }
 
+/* HEADER */
+header {
+  width: 100%;
+  background: #e85c9c;
+  color: #fff;
+  padding: 18px 0;
+  text-align: center;
+  font-size: 1.7em;
+  font-weight: 700;
+  letter-spacing: 2px;
+  box-shadow: 0 2px 12px -8px #e85c9c50;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+header a {
+  color: #fff;
+  text-decoration: none;
+  font-family: inherit;
+  transition: color 0.2s;
+}
+header a:hover, header a:active {
+  color: #ffd1ea;
+}
+
+/* FOOTER */
+footer {
+  width: 100%;
+  margin-top: 32px;
+  padding: 18px 0 10px 0;
+  background-color: #f8f9fa;
+  border-top: 2px solid #e9ecef;
+  text-align: center;
+  font-size: 1em;
+  color: #e85c9c;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  box-shadow: 0 -2px 12px -8px #e85c9c33;
+}
+
+footer p {
+  margin-top: 8px;
+  color: #c34da7;
+  font-size: 1.05em;
+}
+
+/* MAIN CONTAINER */
+main[role="main"] {
+  min-height: 60vh;
+  display: block;
+}
+
+/* Page containers */
 .container-center, #juego-container, .configurar-container {
   max-width: 600px;
   margin: 50px auto 0 auto;
@@ -39,16 +81,19 @@ body {
   padding: 32px 20px;
 }
 
+/* Logo */
 .logo {
   width: 200px;
   margin-bottom: 20px;
 }
 
+/* Headings */
 h1, h2, h3, h4, h5 {
   color: #e85c9c;
   margin: 10px 0;
 }
 
+/* Buttons */
 .btn {
   font-size: 1.2em;
   padding: 12px 32px;
@@ -72,12 +117,14 @@ h1, h2, h3, h4, h5 {
   background: #ff8ac7;
 }
 
+/* Enunciado */
 #enunciado {
   font-size: 1.3em;
   margin-bottom: 16px;
   color: #b02368;
 }
 
+/* Imagenes */
 #fotoPregunta, .img-respuesta {
   max-width: 100%;
   border-radius: 12px;
@@ -85,10 +132,12 @@ h1, h2, h3, h4, h5 {
   box-shadow: 0 2px 12px -6px #e85c9c50;
 }
 
+/* Radio group */
 .radio-group {
   margin-bottom: 10px;
 }
 
+/* Mensaje de resultado */
 #mensaje {
   margin-top: 20px;
   font-size: 24px;
@@ -132,4 +181,16 @@ h1, h2, h3, h4, h5 {
 
 .configurar-container button {
   margin-top: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 650px) {
+  .container-center, #juego-container, .configurar-container {
+    margin: 20px 8px 0 8px;
+    padding: 18px 4px;
+  }
+  header, footer {
+    font-size: 1em;
+    padding: 12px 0;
+  }
 }
