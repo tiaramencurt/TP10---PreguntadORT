@@ -1,6 +1,5 @@
 @{
     ViewData["Title"] = "Juego";
-    bool mostrarMensaje = !string.IsNullOrEmpty(ViewBag.MensajeRespuesta);
 }
 <div id="juego-container">
     <h3>Jugador: <span id="username">@ViewBag.Username</span></h3>
@@ -22,7 +21,6 @@
                     @r.Opcion. @r.Contenido
                     @if(!string.IsNullOrEmpty(r.Foto))
                     {
-                        <br />
                         <img src="@r.Foto" alt="Imagen Respuesta" class="img-respuesta" />
                     }
                 </label>
@@ -31,10 +29,10 @@
         <button type="submit" class="btn btn-primary">Verificar</button>
     </form>
 
-    <div id="mensaje" class="@(ViewBag.MensajeRespuesta == "¡Correcto!" ? "correcto" : "incorrecto")" style="@(mostrarMensaje ? "display:block;" : "")">
+    <div id="mensaje" class="@(ViewBag.MensajeRespuesta == "¡Correcto!" ? "correcto" : "incorrecto")" style="@(ViewBag.MensajeRespuesta != null ? "display:block;" : "")">
         @ViewBag.MensajeRespuesta
     </div>
-    @if(mostrarMensaje)
+    @if(ViewBag.MensajeRespuesta != null)
     {
         <a href="/Home/Jugar" id="btnSiguiente" class="btn btn-success mt-3">Entendido</a>
     }
